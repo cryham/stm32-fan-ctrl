@@ -96,7 +96,28 @@ void ssd1306Refresh(void)
   #else
   HAL_SPI_Transmit  ( &hspi2,  (uint8_t *) buffer, sizeof(buffer), 200) ;
   #endif
+}
 
+// Dim the display ?-
+// dim = true: display is dimmed
+// dim = false: display is normal
+void ssd1306Dim(uint8_t vccstate, int8_t dim)
+{
+  uint8_t contrast;
+
+  if (dim) {
+    contrast = 0; // Dimmed display
+  } else {
+    if (vccstate == SSD1306_EXTERNALVCC) {
+      contrast = 0x9F;
+    } else {
+      contrast = 0xCF;
+    }
+  }
+  // the range of contrast to too small to be really useful
+  // it is useful to dim the display
+  CMD(SSD1306_SETCONTRAST);
+  CMD(contrast);
 }
 
 /**

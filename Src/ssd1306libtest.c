@@ -8,7 +8,7 @@ int  dfs;
 char str[30];
 
 
-void SSD1306LibTest(void)
+void Draw(void)
 {
 	int i,j;
 	

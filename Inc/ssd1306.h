@@ -87,6 +87,8 @@ void    ssd1306Init (uint8_t);
 void    ssd1306Refresh ( void );
 void    ssd1306TurnOn(void);
 void    ssd1306TurnOff(void);
+void    ssd1306Dim(uint8_t vccstate,int8_t dim);
+
 void    ssd1306DrawPixel(int16_t, int16_t, uint16_t, uint16_t) ;
 void    ssd1306ClearPixel(int16_t, int16_t);
 uint8_t ssd1306GetPixel(int16_t, int16_t);

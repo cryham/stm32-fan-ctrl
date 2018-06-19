@@ -37,10 +37,10 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
 #include "stm32f1xx_hal.h"
 
 /* USER CODE BEGIN Includes */
+#include "def.h"
 #include "ssd1306.h"
 
 /* USER CODE END Includes */
@@ -65,7 +65,7 @@ static void MX_SPI2_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-extern void SSD1306LibTest();
+extern void Draw();
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -105,10 +105,12 @@ int main(void)
   MX_CRC_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  ssd1306Init(SSD1306_CHARGEPUMP);
+  uint8_t vcc = SSD1306_CHARGEPUMP;
+  ssd1306Init(vcc);
   ssd1306ClearScreen( LAYER0 | LAYER1 );
   ssd1306Refresh();
   HAL_Delay(100);
+  ssd1306Dim(vcc, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,7 +120,7 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-		SSD1306LibTest();
+		Draw();
   }
   /* USER CODE END 3 */
 
@@ -244,13 +246,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, CS_Pin|DC_Pin|LED2_Pin|LED1_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : S2_Pin S3_Pin */
-  GPIO_InitStruct.Pin = S2_Pin|S3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOB, CS_Pin|DC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : CS_Pin DC_Pin */
   GPIO_InitStruct.Pin = CS_Pin|DC_Pin;
@@ -258,14 +254,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : LED2_Pin LED1_Pin */
-  GPIO_InitStruct.Pin = LED2_Pin|LED1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
