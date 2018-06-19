@@ -1,13 +1,8 @@
-/**
- *  \file ssd1306.c
- *  \brief Brief
- */
-
 #include <string.h>
 #include <stdlib.h>
 #include "ssd1306.h"
 #include "font5x7.h"
-//#include "mxconstants.h"
+#include "def.h"
 
 #define CMD(c)        do { HAL_GPIO_WritePin( DC_GPIO_Port, DC_Pin, GPIO_PIN_RESET); \
                            ssd1306SendByte( c ); \
@@ -31,14 +26,8 @@ static uint8_t   _height   = SSD1306_LCDHEIGHT;
 
 /**
  *  \brief SPI write
- *  
  *  \param [in] byte Parameter_Description
  *  \return Return_Description
- *  
- *  \details Details
- *  
- *  \code
- *  \endcode
  */
 inline void ssd1306SendByte(uint8_t byte)
 {
@@ -48,15 +37,10 @@ inline void ssd1306SendByte(uint8_t byte)
 /**************************************************************************/
 /**
  *  \brief Initialises the SSD1306 LCD display
- *  
  *  \param [in] vccstate Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
  */
 void  ssd1306Init(uint8_t vccstate)
 {
-
   HAL_Delay  (100);
   // Initialisation sequence
   CMD(SSD1306_DISPLAYOFF);                    // 0xAE
@@ -98,10 +82,6 @@ void  ssd1306Init(uint8_t vccstate)
 
 /**
  *  \brief Renders the contents of the pixel buffer on the LCD
- *  
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306Refresh(void) 
 {
@@ -121,10 +101,6 @@ void ssd1306Refresh(void)
 
 /**
  *  \brief Enable the OLED panel
- *  
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306TurnOn(void)
 {
@@ -132,10 +108,6 @@ void ssd1306TurnOn(void)
 }
 /**
  *  \brief Disable the OLED panel
- *  
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306TurnOff(void)
 {
@@ -145,10 +117,8 @@ void ssd1306TurnOff(void)
 /**************************************************************************/
 /*! 
     @brief Draws a single pixel in image buffer
-    @param[in]  x
-                The x position (0..127)
-    @param[in]  y
-                The y position (0..63)
+    @param[in]  x  The x position (0..127)
+    @param[in]  y  The y position (0..63)
 */
 /**************************************************************************/
 void   ssd1306DrawPixel(int16_t x, int16_t y, uint16_t color, uint16_t layer) 
@@ -178,10 +148,6 @@ void   ssd1306DrawPixel(int16_t x, int16_t y, uint16_t color, uint16_t layer)
 /**************************************************************************/
 /*! 
     @brief Clears a single pixel in image buffer
-    @param[in]  x
-                The x position (0..127)
-    @param[in]  y
-                The y position (0..63)
 */
 /**************************************************************************/
 //void ssd1306ClearPixel(int16_t x, int16_t y) 
@@ -195,10 +161,6 @@ void   ssd1306DrawPixel(int16_t x, int16_t y, uint16_t color, uint16_t layer)
 /**************************************************************************/
 /*! 
     @brief Gets the value (1 or 0) of the specified pixel from the buffer
-    @param[in]  x
-                The x position (0..127)
-    @param[in]  y
-                The y position (0..63)
     @return     1 if the pixel is enabled, 0 if disabled
 */
 /**************************************************************************/
@@ -211,11 +173,7 @@ uint8_t ssd1306GetPixel(int16_t x, int16_t y)
 
 /**
  *  \brief Clears the screen
- *  
  *  \param [in] layer Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306ClearScreen(uint16_t layer) 
 {
@@ -228,16 +186,7 @@ void ssd1306ClearScreen(uint16_t layer)
 }
 
 /**
- *  \brief Brief
- *  
- *  \param [in] x0 Parameter_Description
- *  \param [in] y0 Parameter_Description
- *  \param [in] x1 Parameter_Description
- *  \param [in] y1 Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
+ *  \brief Line
  */
 void ssd1306DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, uint16_t layer) {
   int16_t steep = (abs(y1 - y0) > abs(x1 - x0));
@@ -277,156 +226,27 @@ void ssd1306DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t co
     }
   }
 }
-/**
- *  \brief Brief
- *  
- *  \param [in] SSD1306_point Parameter_Description
- *  \param [in] count Parameter_Description
- *  \param [in] x Parameter_Description
- *  \param [in] y Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
- *  
- *  \code
- *  \endcode
- */
-void ssd1306_DrawPolygon(SSD1306_polyTypeDef * SSD1306_poly, int16_t x, int16_t y, uint16_t color, uint16_t layer)
-{
-	int16_t i;
-	
-	if (SSD1306_poly->SSD1306_points_number < 2) return;
-	for(i = 0; i < (SSD1306_poly->SSD1306_points_number - 1); i++)
-	{
-		ssd1306DrawLine(round(SSD1306_poly->SSD1306_points_pointer[i].x + x), round(SSD1306_poly->SSD1306_points_pointer[i].y + y), round(SSD1306_poly->SSD1306_points_pointer[i+1].x + x), round(SSD1306_poly->SSD1306_points_pointer[i+1].y + y), color, layer);
-	}
-	ssd1306DrawLine(round(SSD1306_poly->SSD1306_points_pointer[i].x + x), round(SSD1306_poly->SSD1306_points_pointer[i].y + y), round(SSD1306_poly->SSD1306_points_pointer[0].x + x), round(SSD1306_poly->SSD1306_points_pointer[0].y + y), color, layer);
-}
-
-/**
- *  \brief Fill poly http://alienryderflex.com/polygon_fill/
- *  
- *  \param [in] SSD1306_point Parameter_Description
- *  \param [in] count Parameter_Description
- *  \param [in] x Parameter_Description
- *  \param [in] y Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
- *  
- *  \code
- *  \endcode
- */
-void ssd1306_FillPolygon(SSD1306_polyTypeDef * SSD1306_poly, double x, double y, uint16_t color, uint16_t layer)
-{
-	int     nodes, nodeX[MAX_POLY_CORNERS], i, j, swap ;
-  double  polyX[MAX_POLY_CORNERS], polyY[MAX_POLY_CORNERS], pixelX, pixelY;
-	
-	// draw shape
-	ssd1306_DrawPolygon(SSD1306_poly, x, y, color, layer);
-	// copy poly 
-	i = SSD1306_poly->SSD1306_points_number - 1;
-	while (i >= 0)
-	{
-		polyX[i] = round(SSD1306_poly->SSD1306_points_pointer[i].x + x);
-		polyY[i] = round(SSD1306_poly->SSD1306_points_pointer[i].y + y);
-		i--;
-	}
-	//  Loop through the rows of the image.
-	for (pixelY = 0; pixelY < SSD1306_LCDHEIGHT; pixelY++) {
-		//  Build a list of nodes.
-		nodes = 0;
-		j = SSD1306_poly->SSD1306_points_number - 1;
-		for (i=0; i<SSD1306_poly->SSD1306_points_number; i++) {
-			if ((polyY[i]<(double) pixelY && polyY[j]>=(double) pixelY)	
-			||  (polyY[j]<(double) pixelY && polyY[i]>=(double) pixelY)) {
-				nodeX[nodes++]=(int)round(polyX[i]+(pixelY-polyY[i])/(polyY[j]-polyY[i]) * (polyX[j]-polyX[i])); 
-			}
-			j=i; 
-		}
-		//  Sort the nodes, via a simple “Bubble” sort.
-		i=0;
-		while (i<nodes-1) {
-			if (nodeX[i]>nodeX[i+1]) {
-				swap=nodeX[i]; nodeX[i]=nodeX[i+1]; nodeX[i+1]=swap; if (i) i--; 
-			}	else {
-				i++; 
-			}
-		}
-		//  Fill the pixels between node pairs.
-		for (i=0; i<nodes; i+=2) {
-			if   (nodeX[i  ]>=SSD1306_LCDWIDTH) break;
-			if   (nodeX[i+1]> 0 ) {
-				if (nodeX[i  ]< 0 ) nodeX[i  ]=0 ;
-				if (nodeX[i+1]> SSD1306_LCDWIDTH) nodeX[i+1]=SSD1306_LCDWIDTH;
-				for (pixelX=nodeX[i]; pixelX<=nodeX[i+1]; pixelX++) {
-					ssd1306DrawPixel((pixelX), (pixelY), color, layer);
-				} 
-			}
-		}
-	}
-}
 
 
-/**
- *  \brief Brief
- *  
- *  \param [in] x Parameter_Description
- *  \param [in] y Parameter_Description
- *  \param [in] h Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
- */
 void ssd1306DrawFastVLine(int16_t x, int16_t y,
-				 int16_t h, uint16_t color, uint16_t layer) {
-
+				 int16_t h, uint16_t color, uint16_t layer)
+{
   ssd1306DrawLine(x, y, x, y+h-1, color, layer);
 }
 
-/**
- *  \brief Brief
- *  
- *  \param [in] x Parameter_Description
- *  \param [in] y Parameter_Description
- *  \param [in] w Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
- */
 void ssd1306DrawFastHLine(int16_t x, int16_t y,
-				 int16_t w, uint16_t color, uint16_t layer) {
-					 
+				 int16_t w, uint16_t color, uint16_t layer)
+{					 
   ssd1306DrawLine(x, y, x+w-1, y, color, layer);
 }
 
-/**
- *  \brief Brief
- *  
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
- */
-void ssd1306FillScreen(uint16_t color) {
-	
+void ssd1306FillScreen(uint16_t color)
+{
   ssd1306FillRect(0, 0, _width, _height, color, LAYER0);
 }
 
 /**
  *  \brief Draws a circle, midpoint circle algorithm
- *  
- *  \param [in] x0 Parameter_Description
- *  \param [in] y0 Parameter_Description
- *  \param [in] radius Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306DrawCircle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t color) {
   int x = radius;
@@ -459,15 +279,6 @@ void ssd1306DrawCircle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t color) {
 
 /**
  *  \brief Draw circle helper
- *  
- *  \param [in] x0 Parameter_Description
- *  \param [in] y0 Parameter_Description
- *  \param [in] r Parameter_Description
- *  \param [in] cornername Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
  */
 void ssd1306DrawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, uint16_t layer) {
   int16_t f     = 1 - r;
@@ -506,14 +317,6 @@ void ssd1306DrawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornern
 
 /**
  *  \brief Brief
- *  
- *  \param [in] x0 Parameter_Description
- *  \param [in] y0 Parameter_Description
- *  \param [in] r Parameter_Description
- *  \param [in] color Parameter_Description
- *  \return Return_Description
- *  
- *  \details Details
  */
 void    ssd1306FillCircle(int16_t x0, int16_t y0, int16_t r,uint16_t color, uint16_t layer) {
   ssd1306DrawFastVLine(x0, y0-r, 2*r+1, color, layer);
@@ -635,10 +438,9 @@ uint16_t color, uint16_t layer) {
       if (line & 0x1) {
         if (size == 1) // default size
         ssd1306DrawPixel(x+i, y+j, color, layer);
-        else {  // big size
+        else  // big size
           ssd1306DrawRect(x+(i*size), y+(j*size), size, size, color, layer);
         } 
-      } 
       line >>= 1;
     }
   }
@@ -647,12 +449,6 @@ uint16_t color, uint16_t layer) {
 /**************************************************************************/
 /*!
     @brief  Draws a string using the supplied font data.
-    @param[in]  x
-                Starting x co-ordinate
-    @param[in]  y
-                Starting y co-ordinate
-    @param[in]  text
-                The string to render
     @param[in]  font
                 Pointer to the FONT_DEF to use when drawing the string
     @section Example
@@ -764,19 +560,11 @@ void ssd1306ShiftFrameBuffer( uint16_t height, uint16_t direction)
     }
     break;
     default: return;
-    break;
   }
 //  height--;
 //  }
 }
 
-/**
- *  \brief Brief
- *  
- *  \return Return_Description
- *  
- *  \details Details
- */
 #ifdef MULTILAYER  
 void ssd1306MixFrameBuffer(void)
 {

@@ -41,19 +41,6 @@
 #define 	SSD1306_MIN(a,b)            (((a) < (b)) ? (a) : (b))
 #define 	SSD1306_MAX(a,b)            (((a) > (b)) ? (a) : (b))
 
-// Converts degrees to radians to degrees macro
-#define		M_PI												3.141593
-#define 	degreesToRadians(angleDegrees)		(double)(angleDegrees * M_PI / 180.0)
-#define 	radiansToDegrees(angleRadians)		(double)(angleRadians * 180.0 / M_PI)
-//#define round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
-	
-#define 	LED1_ON()     							HAL_GPIO_WritePin( GPIOB, GPIO_PIN_9, GPIO_PIN_RESET)
-#define 	LED1_OFF()     							HAL_GPIO_WritePin( GPIOB, GPIO_PIN_9, GPIO_PIN_SET)
-#define 	LED1_TOGGLE()								HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_9)
-#define 	LED2_ON()     							HAL_GPIO_WritePin( GPIOB, GPIO_PIN_8, GPIO_PIN_RESET)
-#define 	LED2_OFF()    							HAL_GPIO_WritePin( GPIOB, GPIO_PIN_8, GPIO_PIN_SET)
-#define		LED2_TOGGLE()   						HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_8)
-
 #define   BLACK     									0
 #define   WHITE     									1
 #define   INVERSE   									2
@@ -65,7 +52,6 @@
 #define		SSD1306_LCDWIDTH         		128
 #define		SSD1306_LCDHEIGHT          	64
 
-#define		MAX_POLY_CORNERS						10
 // Commands
 #define SSD1306_SETCONTRAST               0x81
 #define SSD1306_DISPLAYALLON_RESUME       0xA4
@@ -94,18 +80,6 @@
 #define SSD1306MSDELAY(c)      HAL_Delay( c );
 	
 	
-//
-typedef struct {
-	double x;
-	double y;
-}	SSD1306_pointTypeDef;
-
-typedef struct {
-	SSD1306_pointTypeDef * SSD1306_points_pointer;
-	int SSD1306_points_number;
-}	SSD1306_polyTypeDef;
-
-	
 // Initialisation/Config Prototypes
 inline void ssd1306SendByte(uint8_t byte);
 void    ssd1306SendByte(uint8_t);
@@ -117,19 +91,21 @@ void    ssd1306DrawPixel(int16_t, int16_t, uint16_t, uint16_t) ;
 void    ssd1306ClearPixel(int16_t, int16_t);
 uint8_t ssd1306GetPixel(int16_t, int16_t);
 void    ssd1306ClearScreen ( uint16_t );
+
 void    ssd1306DrawLine(int16_t, int16_t, int16_t, int16_t, uint16_t, uint16_t);
-void		ssd1306_DrawPolygon(SSD1306_polyTypeDef * SSD1306_poly, int16_t x, int16_t y, uint16_t color, uint16_t layer);
-void 		ssd1306_FillPolygon(SSD1306_polyTypeDef * SSD1306_poly, double x, double y, uint16_t color, uint16_t layer);
 void    ssd1306DrawFastVLine(int16_t, int16_t, int16_t, uint16_t, uint16_t layer);
 void		ssd1306DrawFastHLine(int16_t, int16_t, int16_t, uint16_t, uint16_t layer);
 void		ssd1306FillScreen(uint16_t);
+
 void		ssd1306DrawCircle(uint8_t, uint8_t, uint8_t, uint16_t);
 void 		ssd1306DrawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color, uint16_t layer);
 void		ssd1306FillCircle(int16_t x0, int16_t y0, int16_t r,uint16_t color, uint16_t layer);
 void 		ssd1306FillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color, uint16_t layer);
+
 void    ssd1306FillRect(uint8_t, uint8_t, uint8_t, uint8_t, uint16_t, uint16_t);
 void    ssd1306DrawRect(int16_t, int16_t, int16_t, int16_t, uint16_t, uint16_t);
 void    ssd1306DrawBitmap(int16_t, int16_t, uint8_t*, int16_t, int16_t, uint16_t);
+
 void    ssd1306DrawChar(int16_t, int16_t, uint8_t, uint8_t, uint16_t, uint16_t);
 void    ssd1306DrawString( int16_t, int16_t, const char * , uint8_t, uint16_t, uint16_t);
 void    ssd1306ShiftFrameBuffer( uint16_t height, uint16_t direction);
