@@ -446,7 +446,8 @@ uint16_t color, uint16_t layer) {
   if( (x >= _width)            || // Clip right
       (y >= _height)           || // Clip bottom
       ((x + 6 * size - 1) < 0) || // Clip left
-      ((y + 8 * size - 1) < 0))   // Clip top
+      ((y + 8 * size - 1) < 0) || // Clip top
+	  c >= 128)  // half chars
   return;
 
   for (int8_t i=0; i<6; i++ ) {

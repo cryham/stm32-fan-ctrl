@@ -22,9 +22,9 @@ void Draw(void)
         {
           ssd1306DrawPixel( (rand() % 127), (rand() % 5), WHITE, LAYER0);
         }
-        ssd1306DrawString( 10,  0, "  HAPPY   ",  2, WHITE, LAYER1);
-        ssd1306DrawString( 10, 16, "   NEW    ",  2, WHITE, LAYER1);
-        ssd1306DrawString( 14, 32, "  YEAR    ",  2, WHITE, LAYER1);
+        ssd1306DrawString( 10,  0, "1234567890",  2, WHITE, LAYER1);
+        ssd1306DrawString( 10, 16, "   NEW    ",  1, WHITE, LAYER1);
+        ssd1306DrawString( 14, 32, "  YEAR    ",  1, WHITE, LAYER1);
         ssd1306ShiftFrameBuffer( 1, 1);
       }
       ssd1306Refresh();
