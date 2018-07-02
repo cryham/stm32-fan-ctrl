@@ -12,7 +12,7 @@
                          } while (0); 
 #define swap(a, b)       { int16_t t = a; a = b; b = t; }
 												 
-extern SPI_HandleTypeDef hspi2;										 
+extern SPI_HandleTypeDef spi2;
 
 static uint8_t    buffer[SSD1306_LCDWIDTH * SSD1306_LCDHEIGHT / 8];
 
@@ -31,7 +31,7 @@ static uint8_t   _height   = SSD1306_LCDHEIGHT;
  */
 inline void ssd1306SendByte(uint8_t byte)
 {
-	HAL_SPI_Transmit  ( &hspi2,  (uint8_t *) &byte, 1, 20) ;
+	HAL_SPI_Transmit  ( &spi2,  (uint8_t *) &byte, 1, 20) ;
 }
 
 /**************************************************************************/
@@ -92,9 +92,9 @@ void ssd1306Refresh(void)
   HAL_GPIO_WritePin( DC_GPIO_Port, DC_Pin, GPIO_PIN_SET);
   #ifdef MULTILAYER
   ssd1306MixFrameBuffer();
-  HAL_SPI_Transmit  ( &hspi2,  (uint8_t *) buffer_ol, sizeof(buffer), 200) ;
+  HAL_SPI_Transmit  ( &spi2,  (uint8_t *) buffer_ol, sizeof(buffer), 200) ;
   #else
-  HAL_SPI_Transmit  ( &hspi2,  (uint8_t *) buffer, sizeof(buffer), 200) ;
+  HAL_SPI_Transmit  ( &spi2,  (uint8_t *) buffer, sizeof(buffer), 200) ;
   #endif
 }
 

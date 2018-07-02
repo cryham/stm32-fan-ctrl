@@ -125,7 +125,7 @@
 						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release.1398523473" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.release">
 							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.1529140077" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.191078432" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32F103C8Tx" valueType="string"/>
-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1837418368" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="fan-c" valueType="string"/>
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1837418368" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="f103" valueType="string"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.80181611" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.604397518" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.no" valueType="enumerated"/>
 							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.471743973" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.soft" valueType="enumerated"/>
@@ -222,12 +222,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="fan-c.fr.ac6.managedbuild.target.gnu.cross.exe.615774756" name="Executable" projectType="fr.ac6.managedbuild.target.gnu.cross.exe"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1160220844;fr.ac6.managedbuild.config.gnu.cross.exe.debug.1160220844.;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1712114388;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.415003314">
-			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
@@ -237,4 +231,13 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.debug.1160220844;fr.ac6.managedbuild.config.gnu.cross.exe.debug.1160220844.;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1712114388;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.415003314">
+			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="fr.ac6.managedbuild.config.gnu.cross.exe.release.374529965;fr.ac6.managedbuild.config.gnu.cross.exe.release.374529965.;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.1712114388;fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.415003314">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
 </cproject>
