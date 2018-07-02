@@ -121,17 +121,28 @@ void GPIO_Init()
 {
 	GPIO_InitTypeDef gpio;
 
-	__HAL_RCC_GPIOD_CLK_ENABLE();
 	__HAL_RCC_GPIOC_CLK_ENABLE();
 	__HAL_RCC_GPIOB_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 
 	HAL_GPIO_WritePin(GPIOB, CS_Pin|DC_Pin, GPIO_PIN_RESET);
 
+	//  SPI2 pins  CS_Pin DC_Pin
 	gpio.Pin = CS_Pin|DC_Pin;
 	gpio.Mode = GPIO_MODE_OUTPUT_PP;
 	gpio.Pull = GPIO_NOPULL;
 	gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOB, &gpio);
+
+	//  ***  pins  ***
+	//  pwm  a8 a9 a10 a11  a12no- a15  b3  < todo
+	
+	//  rot enc  b4, b5  - 10k vcc  < todo
+
+	//  buttons  up [ b9, b8 | b7, b6 ] dn
+	gpio.Pin = GPIO_PIN_9|GPIO_PIN_8|GPIO_PIN_7|GPIO_PIN_6;
+	gpio.Mode = GPIO_MODE_INPUT;
+	gpio.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOB, &gpio);
 }
 
@@ -149,7 +160,7 @@ int main()
 	RTC_Init();
 	
 	//  Display
-	uint8_t vcc = SSD1306_CHARGEPUMP;
+	int8_t vcc = SSD1306_CHARGEPUMP;
 	ssd1306Init(vcc);
 	
 	ssd1306ClearScreen(LAYER0 | LAYER1);
