@@ -8,12 +8,55 @@ CRC_HandleTypeDef crc;
 SPI_HandleTypeDef spi2;
 DMA_HandleTypeDef hdma_spi2_tx;
 
+RTC_HandleTypeDef hrtc;
+
 
 uint16_t uu = 0;
 extern void Draw();
 
 
-//  System Clock
+//  RTC init
+void RTC_Init()
+{
+	RCC_OscInitTypeDef osc;
+	//uint32_t rtc_freq = 0;
+	hrtc.Instance = RTC;
+
+	//__PWR_CLK_ENABLE();
+	HAL_PWR_EnableBkUpAccess();
+	__HAL_RCC_BACKUPRESET_FORCE(); 
+	__HAL_RCC_BACKUPRESET_RELEASE();
+
+	// Enable LSE Oscillator
+	osc.OscillatorType = RCC_OSCILLATORTYPE_LSE;
+	osc.PLL.PLLState = RCC_PLL_NONE;  // otherwise PLL reconfigured
+	osc.LSEState = RCC_LSE_ON;  // external 32.768 kHz clock on OSC
+	if (HAL_RCC_OscConfig(&osc) == HAL_OK)
+	{	// Connect LSE to RTC
+		//__HAL_RCC_RTC_CLKPRESCALER(RCC_RTCCLKSOURCE_LSE);
+		__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
+		//rtc_freq = LSE_VALUE;
+	}else
+	{	// Enable LSI clock
+		osc.OscillatorType = RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+		osc.PLL.PLLState = RCC_PLL_NONE;
+		osc.LSEState = RCC_LSE_OFF;
+		osc.LSIState = RCC_LSI_ON;
+		if (HAL_RCC_OscConfig(&osc) != HAL_OK) {  }
+		// Connect LSI to RTC
+		//__HAL_RCC_RTC_CLKPRESCALER(RCC_RTCCLKSOURCE_LSI);
+		__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSI);
+		//rtc_freq = 32000;
+	}
+	__HAL_RCC_RTC_ENABLE();
+
+	hrtc.Init.AsynchPrediv = RTC_AUTO_1_SECOND;
+	hrtc.Init.OutPut = RTC_OUTPUTSOURCE_NONE;
+	if (HAL_RTC_Init(&hrtc) != HAL_OK) {  }
+}
+
+
+//  System Clock Configuration
 void SystemClock_Config()
 {
 	RCC_OscInitTypeDef osc;
@@ -93,7 +136,7 @@ void GPIO_Init()
 }
 
 
-//---------------
+//------------------------
 int main()
 {
 	HAL_Init();
@@ -103,7 +146,7 @@ int main()
 	DMA_Init();
 	CRC_Init();
 	SPI2_Init();
-	
+	RTC_Init();
 	
 	//  Display
 	uint8_t vcc = SSD1306_CHARGEPUMP;
